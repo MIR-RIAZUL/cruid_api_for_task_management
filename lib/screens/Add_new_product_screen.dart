@@ -30,23 +30,35 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                TextField(
+                TextFormField(
                   controller: _nameController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: 'Enter Product Name',
                     labelText: 'Product Name',
                   ),
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
+                      return 'Please enter Product Name';
+                    }
+                    return null;
+                  },
                 ),
-                TextField(
+                TextFormField(
                   controller: _codeController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: 'Enter Product Code',
                     labelText: 'Product Code',
                   ),
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
+                      return 'Please enter Product Code';
+                    }
+                    return null;
+                  },
                 ),
-                TextField(
+                TextFormField(
                   keyboardType: TextInputType.number,
                   controller: _quantityController,
                   textInputAction: TextInputAction.next,
@@ -54,8 +66,14 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                     hintText: 'Enter Quantity',
                     labelText: 'Quantity',
                   ),
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
+                      return 'Please enter Quantity';
+                    }
+                    return null;
+                  },
                 ),
-                TextField(
+                TextFormField(
                   keyboardType: TextInputType.number,
                   controller: _unitPriceController,
                   textInputAction: TextInputAction.done,
@@ -63,13 +81,25 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                     hintText: 'Enter Unit Price',
                     labelText: 'Unit Price',
                   ),
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
+                      return 'Please enter Unit Price';
+                    }
+                    return null;
+                  },
                 ),
-                TextField(
+                TextFormField(
                   controller: _imageUrlController,
                   decoration: InputDecoration(
                     hintText: 'image Url',
                     labelText: 'Image Url',
                   ),
+                  validator: (String? value) {
+                    if (value?.trim().isEmpty ?? true) {
+                      return 'Please enter Image Url';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 20),
                 Visibility(
@@ -89,6 +119,10 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
   }
 
   Future<void> _ontapAddProductBUtton() async {
+    //validate form
+    if (_formKey.currentState!.validate() == false) {
+      return;
+    }
     _AddproductInProgress = true;
     setState(() {});
 
