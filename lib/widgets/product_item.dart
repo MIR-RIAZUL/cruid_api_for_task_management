@@ -1,22 +1,35 @@
 import 'package:cruid_api_for_task_management/screens/update_product_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../models/product.dart';
+
 class product_item extends StatelessWidget {
-  const product_item({super.key});
+  const product_item({super.key, required this.product});
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(),
-      title: Text('Product name'),
+      leading: Image.network(
+        width: 40,
+        product.image,
+        errorBuilder: (_, __, ___) {
+          return Icon(Icons.error, size: 40);
+        },
+      ),
+      title: Text(product.Name),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Code: 123456'),
+          Text("Product Code: ${product.Code}"),
 
           Row(
             spacing: 15,
-            children: [Text("Quantity: 5"), Text(" unit Price: 500")],
+            children: [
+              Text('Quantity: ${product.quentity}'),
+              Text('Unit Price: ${product.UnitPrice}'),
+            ],
           ),
         ],
       ),
