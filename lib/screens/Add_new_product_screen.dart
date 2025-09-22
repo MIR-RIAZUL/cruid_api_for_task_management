@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
+import '../widgets/snackbar_message.dart';
+
 class AddNewProductScreen extends StatefulWidget {
   const AddNewProductScreen({super.key});
 
@@ -150,20 +152,15 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
     print(response.statusCode);
     print(response.body);
 
-    final decodedjson = jsonDecode(response.body);
-    if (decodedjson['status'] == 'success') {
-      _clearTextField();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Product created Successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } else {
-      String errorMessage = decodedjson['data'];
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
-      );
+    if (response.statusCode == 200) {
+      final decodedjson = jsonDecode(response.body);
+      if (decodedjson['status'] == 'success') {
+        _clearTextField();
+        showSnackbarMessage(context, 'Product Added Successfully');
+      } else {
+        String errorMessage = decodedjson['data'];
+        showSnackbarMessage(context, errorMessage);
+      }
     }
 
     _AddproductInProgress = false;
