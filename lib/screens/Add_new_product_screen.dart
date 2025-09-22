@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 
 class AddNewProductScreen extends StatefulWidget {
   const AddNewProductScreen({super.key});
@@ -8,6 +11,7 @@ class AddNewProductScreen extends StatefulWidget {
 }
 
 class _AddNewProductScreenState extends State<AddNewProductScreen> {
+  bool _AddproductInProgress = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
@@ -68,13 +72,76 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                FilledButton(onPressed: () {}, child: Text('Add Product')),
+                Visibility(
+                  visible: _AddproductInProgress == false,
+                  replacement: Center(child: CircularProgressIndicator()),
+                  child: FilledButton(
+                    onPressed: _ontapAddProductBUtton,
+                    child: Text('Add Product'),
+                  ),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _ontapAddProductBUtton() async {
+    _AddproductInProgress = true;
+    setState(() {});
+
+    //prepare url ro request
+    Uri uri = Uri.parse('http://35.73.30.144:2008/api/v1/CreateProduct');
+    //prepare data
+
+    Map<String, dynamic> requestbody = {
+      "ProductName": _nameController.text,
+      "ProductCode": _codeController.text,
+      "Img": _imageUrlController.text,
+      "Qty": int.parse(_quantityController.text),
+      "UnitPrice": int.parse(_unitPriceController.text),
+      "TotalPrice":
+          int.parse(_quantityController.text) *
+          int.parse(_unitPriceController.text),
+    };
+    //send request
+    Response response = await post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+
+      body: jsonEncode(requestbody),
+    );
+    print(response.statusCode);
+    print(response.body);
+
+    final decodedjson = jsonDecode(response.body);
+    if (decodedjson['status'] == 'success') {
+      _clearTextField();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Product created Successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      String errorMessage = decodedjson['data'];
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+      );
+    }
+
+    _AddproductInProgress = false;
+    setState(() {});
+  }
+
+  void _clearTextField() {
+    _nameController.clear();
+    _codeController.clear();
+    _quantityController.clear();
+    _unitPriceController.clear();
+    _imageUrlController.clear();
   }
 
   @override
