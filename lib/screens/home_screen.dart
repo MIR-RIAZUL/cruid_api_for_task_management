@@ -1,5 +1,7 @@
+import 'package:cruid_api_for_task_management/screens/update_product_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/product_item.dart';
 import 'Add_new_product_screen.dart';
 
 class HomeSCreen extends StatefulWidget {
@@ -17,21 +19,7 @@ class _HomeSCreenState extends State<HomeSCreen> {
       body: ListView.separated(
         itemCount: 10,
         itemBuilder: (context, index) {
-          return ListTile(
-            leading: CircleAvatar(),
-            title: Text('Product name'),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Code: 123456'),
-
-                Row(
-                  spacing: 15,
-                  children: [Text("Quantity: 5"), Text(" unit Price: 500")],
-                ),
-              ],
-            ),
-          );
+          return product_item();
         },
         separatorBuilder: (context, index) {
           return Divider(indent: 70);

@@ -9,6 +9,12 @@ class AddNewProductScreen extends StatefulWidget {
 
 class _AddNewProductScreenState extends State<AddNewProductScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
+  final TextEditingController _unitPriceController = TextEditingController();
+  final TextEditingController _imageUrlController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +23,11 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 TextField(
+                  controller: _nameController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: 'Enter Product Name',
@@ -28,6 +35,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                   ),
                 ),
                 TextField(
+                  controller: _codeController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: 'Enter Product Code',
@@ -35,6 +43,8 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                   ),
                 ),
                 TextField(
+                  keyboardType: TextInputType.number,
+                  controller: _quantityController,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: 'Enter Quantity',
@@ -42,6 +52,8 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                   ),
                 ),
                 TextField(
+                  keyboardType: TextInputType.number,
+                  controller: _unitPriceController,
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     hintText: 'Enter Unit Price',
@@ -49,6 +61,7 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
                   ),
                 ),
                 TextField(
+                  controller: _imageUrlController,
                   decoration: InputDecoration(
                     hintText: 'image Url',
                     labelText: 'Image Url',
@@ -62,5 +75,15 @@ class _AddNewProductScreenState extends State<AddNewProductScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _codeController.dispose();
+    _quantityController.dispose();
+    _unitPriceController.dispose();
+    _imageUrlController.dispose();
+    super.dispose();
   }
 }
