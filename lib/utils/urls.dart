@@ -5,6 +5,9 @@ class Urls {
 
   // static const String addProduct = '$_baseUrl/products/add';
   // static const String updateProduct = '$_baseUrl/products/update';
-  // static const String deleteProduct = '$_baseUrl/products/delete';
+  static String deleteProduct(String id) {
+    return '$_baseUrl/DeleteProduct/$id';
+  }
+
   //
 }

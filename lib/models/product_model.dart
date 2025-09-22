@@ -10,7 +10,7 @@
 // "TotalPrice": 7035
 // },
 
-class Product {
+class ProductModel {
   late String id;
   late String Name;
   late int Code;
@@ -18,4 +18,14 @@ class Product {
   late int quentity;
   late int UnitPrice;
   late int TotalPrice;
+
+  ProductModel.FromJson(Map<String, dynamic> json) {
+    id = json['_id'];
+    Name = json['ProductName'];
+    Code = json['ProductCode'];
+    image = json['Img'];
+    quentity = json['Qty'];
+    UnitPrice = json['UnitPrice'];
+    TotalPrice = json['TotalPrice'];
+  }
 }
