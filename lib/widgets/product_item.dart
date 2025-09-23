@@ -6,9 +6,14 @@ import '../models/product_model.dart';
 import '../utils/urls.dart';
 
 class product_item extends StatefulWidget {
-  const product_item({super.key, required this.product});
+  const product_item({
+    super.key,
+    required this.product,
+    required this.refreshProductList,
+  });
 
   final ProductModel product;
+  final VoidCallback refreshProductList;
 
   @override
   State<product_item> createState() => _product_itemState();
@@ -44,8 +49,8 @@ class _product_itemState extends State<product_item> {
       trailing: Visibility(
         visible: _DeleteproductInProgress == false,
         replacement: SizedBox(
-          width: 20,
-          height: 20,
+          width: 24,
+          height: 24,
           child: CircularProgressIndicator(),
         ),
         child: PopupMenuButton<ProductOption>(
@@ -79,7 +84,12 @@ class _product_itemState extends State<product_item> {
     debugPrint(response.body);
     debugPrint(response.statusCode.toString());
 
-    if (response.statusCode == 200) {}
+    if (response.statusCode == 200) {
+      widget.refreshProductList();
+    }
+
+    _DeleteproductInProgress = false;
+    setState(() {});
   }
 }
 
